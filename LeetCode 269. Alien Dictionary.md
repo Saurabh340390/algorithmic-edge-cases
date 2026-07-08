@@ -15,5 +15,4 @@ What happened: If a word is followed by its own prefix (e.g., "abcd" then "ab"),
 
 **Lesson**: Always add this guard when comparing adjacent words:
 ```if len(words[i]) > len(words[i+1]) and words[i].startswith(words[i+1]):
-    return ""
- ```
+    return "" ```
