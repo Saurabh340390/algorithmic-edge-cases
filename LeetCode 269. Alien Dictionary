@@ -1,66 +1,16 @@
-LeetCode 269. Alien Dictionary
-Here's a summary of all the mistakes you made along the way:
+🐛__Mistake 1__: Indegree inflated by duplicate edges
 
-### Mistake 1: Indegree inflated by duplicate edges
+What happened: You used a set for adjLst (good — prevents duplicate edges), but you incremented indegree unconditionally. If the same edge t → f was discovered from two different word pairs, the edge was only stored once, but indegree['f'] was incremented twice. This meant f could never reach indegree 0 during BFS.
 
-**What happened:** You used a `set` for `adjLst` (good — prevents duplicate edges), but you incremented `indegree` unconditionally. If the same edge `t → f` was discovered from two different word pairs, the edge was only stored once, but `indegree['f']` was incremented twice. This meant `f` could never reach indegree 0 during BFS.
-
-**Lesson:** When using a set for adjacency, always check if the edge is **new** before updating indegree:
-```python
-if words[i+1][j] not in adjLst[words[i][j]]:
+**Lesson**: When using a set for adjacency, always check if the edge is new before updating indegree:
+```if words[i+1][j] not in adjLst[words[i][j]]:
     adjLst[words[i][j]].add(words[i+1][j])
-    indegree[words[i+1][j]] += 1
-```
+    indegree[words[i+1][j]] += 1```
 
----
+🐛__Mistake 2__: Missing prefix edge case
 
-### Mistake 2: Missing prefix edge case
+What happened: If a word is followed by its own prefix (e.g., "abcd" then "ab"), no valid ordering exists — you must return "". Your original code had no check for this.
 
-**What happened:** If a word is followed by its own prefix (e.g., `"abcd"` then `"ab"`), no valid ordering exists — you must return `""`. Your original code had no check for this.
-
-**Lesson:** Always add this guard when comparing adjacent words:
-```python
-if len(words[i]) > len(words[i+1]) and words[i].startswith(words[i+1]):
-    return ""
-```
-
----
-
-### Mistake 3: Indentation made the comparison loop dead code
-
-**What happened:** When adding the prefix check, the `for j` loop was accidentally indented **inside** the `if` block (after `return ""`). Since the prefix condition was rarely true, the character comparison never ran — no edges were built, and all letters ended up with indegree 0.
-
-**Lesson:** The prefix check and the character comparison loop should be **siblings** under `for i`:
-```python
-for i in range(len(words)-1):
-    if len(words[i]) > len(words[i+1]) and words[i].startswith(words[i+1]):
-        return ""          # ← prefix check
-    for j in range(...):   # ← comparison loop (same indent level as `if`)
-        ...
-```
-
----
-
-### Mistake 4: `break` in the wrong place
-
-**What happened:** The `break` (to stop comparing after the **first** differing character) was placed inside the `if edge is new` block. It should fire whenever a difference is found, regardless of whether the edge is new.
-
-**Lesson:** The `break` belongs to the `if words[i][j] != words[i+1][j]` block, not the inner edge-check:
-```python
-if words[i][j] != words[i+1][j]:
-    if words[i+1][j] not in adjLst[words[i][j]]:
-        adjLst[words[i][j]].add(words[i+1][j])
-        indegree[words[i+1][j]] += 1
-    break  # ← always break after the first difference
-```
-
----
-
-### Quick Takeaway
-
-| Category | Mistake | Key Idea |
-|----------|---------|----------|
-| Graph building | Indegree not guarded against duplicates | Sync indegree with actual edges |
-| Edge case | No prefix check | `len(a) > len(b)` + `a.startswith(b)` → `""` |
-| Python syntax | Wrong indentation = dead code | Verify loop nesting after adding guards |
-| Logic | `break` scoped too narrowly | Break on first diff, not on new edge |
+**Lesson**: Always add this guard when comparing adjacent words:
+```if len(words[i]) > len(words[i+1]) and words[i].startswith(words[i+1]):
+    return "" ```
