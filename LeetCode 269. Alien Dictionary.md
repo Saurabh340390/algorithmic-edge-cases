@@ -1,4 +1,4 @@
-🐛# Mistake 1 : Indegree inflated by duplicate edges
+#🐛 Mistake 1 : Indegree inflated by duplicate edges
 
 What happened: You used a set for adjLst (good — prevents duplicate edges), but you incremented indegree unconditionally. If the same edge t → f was discovered from two different word pairs, the edge was only stored once, but indegree['f'] was incremented twice. This meant f could never reach indegree 0 during BFS.
 
@@ -10,7 +10,7 @@ if words[i+1][j] not in adjLst[words[i][j]]:
     indegree[words[i+1][j]] += 1
 ```
 
-🐛 # Mistake 2 : Missing prefix edge case
+#🐛 Mistake 2 : Missing prefix edge case
 
 What happened: If a word is followed by its own prefix (e.g., "abcd" then "ab"), no valid ordering exists — you must return "". Your original code had no check for this.
 
