@@ -27,5 +27,7 @@ Comparing "cake" != 'c' always returned False.
 
 ## 🐛Bug 4: KeyError when accessing a non-existent key
 My logic: self.dict[abv].add(word) without checking if the key exists.
+
 Problem: The first time an abbreviation is encountered, the key doesn't exist in the dictionary, causing a KeyError.
+
 **Fix:** Initialize the set before adding: use defaultdict(set).
