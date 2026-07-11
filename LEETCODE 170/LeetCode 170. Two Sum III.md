@@ -1,5 +1,6 @@
 # 🐛 Bug 1: Time Limit Exceeded
 Cause : Used a nested loop iterating over the entire array twice, resulting in O(N²) time complexity per find call.
+
 Lesson : Replaced the list + nested loop with a HashTable (dict) storing number frequencies
 ## Before (TLE):
 ```
