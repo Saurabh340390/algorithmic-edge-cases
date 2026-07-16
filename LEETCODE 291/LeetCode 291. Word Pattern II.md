@@ -1,15 +1,20 @@
 ## 🐛 Bug 1  Missing return in recursive call
 Before: ``` isMatch(sIndex+1, pIndex+len(word)) ```
+
 Issue: The recursive call result was discarded; execution fell through to the for loop.
-### Fix: Add return and use if isMatch(...): return True
+### Fix: 
+Add return and use if isMatch(...): return True
 
 ## 🐛 Bug 2 — Wrong sIndex advancement
 Before: ```sIndex+1```
+
 Issue: Advanced sIndex by 1 instead of the matched word's length.
-### Fix: ```sIndex+len(word)```
+### Fix: 
+```sIndex+len(word)```
 
 ## 🐛 Bug 3 — Infinite recursion 
 Before: ```isMatch(sIndex, pIndex)```
+
 Issue: Called with the same indices, causing infinite recursion → IndexError.
 ### Fix: ```isMatch(sIndex+len(newWord), pIndex+1)```
 
