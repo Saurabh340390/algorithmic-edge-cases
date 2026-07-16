@@ -16,7 +16,8 @@ Issue: Advanced sIndex by 1 instead of the matched word's length.
 Before: ```isMatch(sIndex, pIndex)```
 
 Issue: Called with the same indices, causing infinite recursion → IndexError.
-### Fix: ```isMatch(sIndex+len(newWord), pIndex+1)```
+### Fix:
+```isMatch(sIndex+len(newWord), pIndex+1)```
 
 ## 🐛 Bug 4 — Logic fall-through on already-mapped symbol
 
